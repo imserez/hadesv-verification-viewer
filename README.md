@@ -37,8 +37,8 @@ instead of reading raw logs line by line, you can navigate cycles, inspect signa
 - `b`: jump to the first cycle.
 - `e`: jump to the last cycle.
 - `j`: jump to a specific cycle.
-- `r`: open jump history.
-- `t`: return to the previous cycle.
+- `h`: open jump history.
+- `r`: return to the previous cycle.
 - `s`: toggle deltas.
 - `p`: print the current view in plain text.
 - `q`: quit.
@@ -110,7 +110,7 @@ The following signals are needed in the generated trace:
 The following example shows how to generate the JSON in an existing testbench:
 
 ```systemverilog
-int json_file;      // file descriptor
+int json_file;          // file descriptor
 bit first_entry = 1;    // auxiliary variable to control ',' in JSON
 
 initial begin
