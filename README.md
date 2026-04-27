@@ -4,6 +4,8 @@ Hades Trace CLI is a terminal-based trace visualizer for SystemVerilog debugging
 
 It helps inspect pipeline traces cycle by cycle, compare DUT and REF signals, and locate mismatches without leaving the terminal.
 
+![Hades Trace CLI](./img/screenshot.png)
+
 ## Why this tool exists
 
 Debugging a SystemVerilog testbench can be slow when failures are buried in long traces and large amounts of signal data.
