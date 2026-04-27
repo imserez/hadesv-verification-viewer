@@ -57,7 +57,7 @@ The interface includes:
 Clone the repository and run the tool with Python 3.
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/imserez/hadesv-verification-viewer
 cd hades-trace-cli
 python main.py
 ```
