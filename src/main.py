@@ -129,7 +129,7 @@ def main():
                 idx = new_idx
                 register_jump(idx, jump_history)
 
-        elif command.lower() == "t":
+        elif command.lower() == "r":
             if previous_idx is not None:
                 idx, previous_idx = previous_idx, idx
                 register_jump(idx, jump_history)
@@ -148,7 +148,7 @@ def main():
                 idx = prev_err
                 register_jump(idx, jump_history)
 
-        elif command.lower() == "r":
+        elif command.lower() == "h":
             new_idx, hist_previous = handle_history_mode(
                 data,
                 idx,

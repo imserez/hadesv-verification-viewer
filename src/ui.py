@@ -27,7 +27,8 @@ def show_status_line(current_cycle, max_cycle, mismatch_indexs, previous_idx, er
         f"\n[dim]cycle: {current_cycle}/{max_cycle} | "
         f"[bold red]{text_error}[/bold red] | "
         f"ENTER: Forward | ←/→: Move | "
-        f"[bold cyan]'j': Jump | 'r': History[/bold cyan] | "
+        f"[bold cyan]'j': Jump | 'h': History[/bold cyan] | "
+        f"[bold cyan]'r': Return [/bold cyan] | "
         f"[bold green]'b': Start | 'e': End[/bold green]"
         f"{text_t} | "
         f"[bold yellow]'s': Deltas[/bold yellow] | "
@@ -68,7 +69,7 @@ def show_cycle(
     prev_inputs = prev_status.get("inputs", {})
 
     title = Text(
-        f"HADES-V VISUALIZER | CLK Cycle {status['cycle']}",
+        f"HADES-V VISUALIZER | CLK Cycle {status['cycle'] -1}",
         style="bold cyan",
         justify="center",
     )
