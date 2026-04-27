@@ -111,7 +111,7 @@ The following example shows how to generate the JSON in an existing testbench:
 
 ```systemverilog
 int json_file;      // file descriptor
-bit first_entry;    // auxiliary variable to control ',' in JSON
+bit first_entry = 1;    // auxiliary variable to control ',' in JSON
 
 initial begin
     json_file = $fopen("pipeline_trace.json", "w");
