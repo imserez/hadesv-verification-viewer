@@ -166,6 +166,8 @@ final begin
 end
 ```
 
+Consider adding more signals to system context if needed. In `samples/pipeline_trace.json` you can find a example to play with the tool
+
 ## Current status
 
 This project is still evolving, but the main goal is already in place: make SystemVerilog trace debugging faster, clearer, and less painful.
@@ -176,3 +178,5 @@ This project is still evolving, but the main goal is already in place: make Syst
 - Improve trace export automation.
 - Support additional views for mismatches and error categories.
 - Keep refining the terminal UI for faster debugging.
+- Add a way to ignore signal mismatches.
+- Parse directly from vcd files.

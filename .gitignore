@@ -2,6 +2,7 @@
 ignore/
 
 src/pipeline_trace.json
+src/*.json
 
 # Generic:
 __pycache__/
