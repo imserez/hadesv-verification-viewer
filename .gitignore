@@ -1,6 +1,8 @@
 .venv/
 ignore/
 
+src/*.json
+
 # Generic:
 __pycache__/
 *.py[cod]

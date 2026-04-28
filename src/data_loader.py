@@ -49,5 +49,4 @@ def find_error_cycles(data:list) -> list[int]:
 
         if (error == 1):
             error_indexs.append(i)
-            break
     return error_indexs
