@@ -62,7 +62,7 @@ def show_cycle(
     d_vals = status.get("dut_values", {})
     r_vals = status.get("ref_values", {})
     inputs = status.get("inputs", {})
-    error  = status.get("error", {})
+    error  = status.get("error", 0)
 
     prev_d_vals = prev_status.get("dut_values", {})
     prev_r_vals = prev_status.get("ref_values", {})
@@ -95,13 +95,16 @@ def show_cycle(
         if (dut != ref):
             if (error == 1):
                 color = "bold red"
+                signal_style = "bold red"
             else:
                 color = "orange3"
+                signal_style = "bold orange3"
         else:
             color = "green"
+            signal_style = "dim"
 
         table_comparison.add_row(
-            key,
+            f"[{signal_style}]{key}[/{signal_style}]",
             f"[{color}]{dut}[/{color}]{ind_dut}",
             f"[{color}]{ref}[/{color}]{ind_ref}",
         )
@@ -167,63 +170,70 @@ def show_cycle(
 
     console.print(grid)
 
-    window_size = 40
-    timeline_text = Text()
-
-    start_c = cycle_idx - window_size
-    end_c = cycle_idx + window_size
-
-    timeline_text.append(f"{max(0, start_c):<6} ", style="bold white")
-
-    for c in range(start_c, end_c + 1):
-        if c < 0 or c > max_cycle:
-            timeline_text.append(" ", style="dim")
-        elif c == cycle_idx:
-            if c in error_indexs:
-                timeline_text.append("█", style="bold red")
-            else:
-                timeline_text.append("█", style="bold cyan")
-        elif c in error_indexs:
-            timeline_text.append("●", style="bold red")
-        else:
-            timeline_text.append("━", style="dim")
-
-    timeline_text.append(f" {min(max_cycle, end_c):>6}", style="bold white")
     console.print(
-        Panel(
-            timeline_text,
-            title="[bold white]TIMELINE ERRORS[/bold white]",
-            border_style="white",
-            expand=True,
+        build_timeline(
+            cycle_idx,
+            max_cycle,
+            error_indexs,
+            "[bold white]TIMELINE ERRORS[/bold white]",
+            "bold red",
+            "bold red",
+        )
+    )
+    console.print(
+        build_timeline(
+            cycle_idx,
+            max_cycle,
+            mismatch_indexs,
+            "[bold white]TIMELINE MISMATCH[/bold white]",
+            "bold orange1",
+            "bold dark_orange",
         )
     )
 
-    timeline_mismatch = Text()
 
-    start_c = cycle_idx - window_size
-    end_c = cycle_idx + window_size
+def build_timeline(cycle_idx, max_cycle, marked_cycles, title, mark_style, current_mark_style):
+    terminal_width = console.size.width
+    left_label = 6
+    right_label = 6
+    borders = 6
+    usable_width = max(30, terminal_width - left_label - right_label - borders)
 
-    timeline_mismatch.append(f"{max(0, start_c):<6} ", style="bold white")
+    visible_cycles = max(10, usable_width)
+
+    half = visible_cycles // 2
+    start_c = max(0, cycle_idx - half)
+    end_c = min(max_cycle, start_c + visible_cycles - 1)
+
+    if end_c - start_c + 1 < visible_cycles:
+        start_c = max(0, end_c - visible_cycles + 1)
+        end_c = min(max_cycle, start_c + visible_cycles - 1)
+
+    timeline_text = Text()
+    timeline_text.append(f"{start_c:<6} ", style="bold white")
 
     for c in range(start_c, end_c + 1):
-        if c < 0 or c > max_cycle:
-            timeline_mismatch.append(" ", style="dim")
-        elif c == cycle_idx:
-            if c in mismatch_indexs:
-                timeline_mismatch.append("█", style="bold dark_orange")
+        if c == cycle_idx:
+            if c in marked_cycles:
+                symbol = "█"
+                style = current_mark_style
             else:
-                timeline_mismatch.append("█", style="bold cyan")
-        elif c in mismatch_indexs:
-            timeline_mismatch.append("●", style="bold orange1")
+                symbol = "█"
+                style = "bold cyan"
+        elif c in marked_cycles:
+            symbol = "●"
+            style = mark_style
         else:
-            timeline_mismatch.append("━", style="dim")
+            symbol = "─"
+            style = "dim"
 
-    timeline_mismatch.append(f" {min(max_cycle, end_c):>6}", style="bold white")
-    console.print(
-        Panel(
-            timeline_mismatch,
-            title="[bold white]TIMELINE MISMATCH[/bold white]",
-            border_style="white",
-            expand=True,
-        )
+        timeline_text.append(symbol, style=style)
+
+    timeline_text.append(f" {end_c:>6}", style="bold white")
+
+    return Panel(
+        timeline_text,
+        title=title,
+        border_style="white",
+        expand=True,
     )
